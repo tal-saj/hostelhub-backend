@@ -23,22 +23,18 @@ const allowedOrigins = [
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl)
     if (!origin) return callback(null, true);
 
-    // Exact match only for security
-    if (allowedOrigins.includes(origin)) {
+    const allowed = allowedOrigins.some(o => origin.startsWith(o));
+
+    if (allowed) {
       callback(null, true);
     } else {
-      console.warn(`CORS blocked origin: ${origin}`);
-      // Send false to reject without throwing error, Express will send 403
+      console.log("❌ Blocked by CORS:", origin);
       callback(null, false);
     }
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   credentials: true,
-  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
