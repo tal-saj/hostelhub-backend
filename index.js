@@ -17,6 +17,7 @@ const app = express();
 const allowedOrigins = [
   
   'http://localhost:3000',
+  'https://hostelhub-frontend-tau.vercel.app',
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
