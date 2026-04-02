@@ -15,9 +15,8 @@ const app = express();
 
 // Enhanced CORS configuration
 const allowedOrigins = [
-  'https://hostelhub-frontend-blue.vercel.app',
-  'hostelhub-frontend-tau.vercel.app',
-  'https://hostelhub-frontend.vercel.app',
+  
+  'https://hostelhub-frontend-tau.vercel.app/',
   'http://localhost:3000',
   process.env.FRONTEND_URL,
 ].filter(Boolean);
