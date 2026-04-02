@@ -15,26 +15,31 @@ const app = express();
 
 // Enhanced CORS configuration
 const allowedOrigins = [
-  
-  'http://localhost:3000',
+  'https://hostelhub-frontend-blue.vercel.app',
   'https://hostelhub-frontend-tau.vercel.app',
+  'https://hostelhub-frontend.vercel.app',
+  'http://localhost:3000',
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
 const corsOptions = {
   origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
     if (!origin) return callback(null, true);
 
-    const allowed = allowedOrigins.some(o => origin.startsWith(o));
-
-    if (allowed) {
+    // Exact match only for security
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      console.log("❌ Blocked by CORS:", origin);
+      console.warn(`CORS blocked origin: ${origin}`);
+      // Send false to reject without throwing error, Express will send 403
       callback(null, false);
     }
   },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   credentials: true,
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
